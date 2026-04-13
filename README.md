@@ -22,7 +22,7 @@ The PCA notebook (`PCA.ipynb`) teaches you:
 ### Part 2: Building a Recommendation Engine
 **Once you understand PCA, see how recommendation systems actually work in production.**
 
-You can go into the [Recommendation Matrix Notebook](./PCA.ipynb) to understand the logic behiond the basic matrix and SVDs used to generate reommendations, the notebook has some commentary to explain what was done. This one is more for the curious people (not that mandatory to read)
+You can go into the [Recommendation Matrix Notebook](./RecommendationMatrix.ipynb) to understand the logic behiond the basic matrix and SVDs used to generate reommendations, the notebook has some commentary to explain what was done. This one is more for the curious people (not that mandatory to read)
 
 After, and most importamntly, we built MovieMate, a complete recommendation system using collaborative filtering. Instead of complex matrix factorization (which you learn in theory), we use a simpler, faster approach that works in 2-4 seconds.
 
@@ -78,7 +78,7 @@ Together, they teach you how professionals think: *Pick the right tool for the c
 
 **To Learn:**
 - [PCA.ipynb](./PCA.ipynb) (visual, interactive)
-- [RecommendationMatrix.ipynb](./PCA.ipynb) (notebook to see and understand how the basic model of recommendation works)
+- [RecommendationMatrix.ipynb](./RecommendationMatrix.ipynb) (notebook to see and understand how the basic model of recommendation works)
 - [Recommendation_Model.md](./RecommendationApp/Recommendation_Model.md) (complete story)
 
 **To Use:**
