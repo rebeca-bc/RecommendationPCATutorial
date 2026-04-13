@@ -28,7 +28,7 @@ After, and most importamntly, we built MovieMate, a complete recommendation syst
 
 **Key Question:** Why did we switch from the mathematically "perfect" SVD algorithm (60+ seconds) to cosine similarity (2-4 seconds)?
 
-**[Live App (Deployed) →]([https://replit.com/@YOUR_USERNAME/moviemate](https://recommendationpcatutorial.onrender.com/))** *(Deployed)*
+**[Live App (Deployed) →](https://recommendationpcatutorial.onrender.com/)** *(Deployed)*
 
 ---
 
