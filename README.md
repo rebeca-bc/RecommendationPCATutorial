@@ -46,7 +46,7 @@ No setup needed—just click and start rating. The system finds users with simil
 ## 📖 Understanding the Recommendation Logic
 
 Want to understand HOW the recommendations work? Read this in order: 
-**[Recommendation_Model.md](./RecommendationApp/Recommendation_Model.md)** — Deep dive
+**[Recommendation_Model.md](./reccommendationApp/Recommendation_Model.md)** — Deep dive
    - Complete story: theory → practice
    - Why we chose this algorithm
    - Industry standards explained
@@ -79,11 +79,11 @@ Together, they teach you how professionals think: *Pick the right tool for the c
 **To Learn:**
 - [PCA.ipynb](./PCA.ipynb) (visual, interactive)
 - [RecommendationMatrix.ipynb](./RecommendationMatrix.ipynb) (notebook to see and understand how the basic model of recommendation works)
-- [Recommendation_Model.md](./RecommendationApp/Recommendation_Model.md) (complete story)
+- [Recommendation_Model.md](./reccommendationApp/Recommendation_Model.md) (complete story)
 
 **To Use:**
 - Live app link (or deploy via Replit in 5 min)
 
 **The data Files:**
-- [u.data](./RecommendationApp/u.data)
-- [u.item](./RecommendationApp/u.item)
+- [u.data](./reccommendationApp/u.data)
+- [u.item](./reccommendationApp/u.item)
