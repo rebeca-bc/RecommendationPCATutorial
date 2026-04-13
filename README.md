@@ -22,7 +22,9 @@ The PCA notebook (`PCA.ipynb`) teaches you:
 ### Part 2: Building a Recommendation Engine
 **Once you understand PCA, see how recommendation systems actually work in production.**
 
-We built MovieMate, a complete recommendation system using collaborative filtering. Instead of complex matrix factorization (which you learn in theory), we use a simpler, faster approach that works in 2-4 seconds.
+You can go into the [Recommendation Matrix Notebook](./PCA.ipynb) to understand the logic behiond the basic matrix and SVDs used to generate reommendations, the notebook has some commentary to explain what was done. This one is more for the curious people (not that mandatory to read)
+
+After, and most importamntly, we built MovieMate, a complete recommendation system using collaborative filtering. Instead of complex matrix factorization (which you learn in theory), we use a simpler, faster approach that works in 2-4 seconds.
 
 **Key Question:** Why did we switch from the mathematically "perfect" SVD algorithm (60+ seconds) to cosine similarity (2-4 seconds)?
 
