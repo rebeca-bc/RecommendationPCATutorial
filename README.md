@@ -46,7 +46,7 @@ No setup needed—just click and start rating. The system finds users with simil
 ## 📖 Understanding the Recommendation Logic
 
 Want to understand HOW the recommendations work? Read this in order: 
-**[Recommendation_Model.md](/reccommendationApp/RecommendationModel.md)** — Deep dive
+**[RecommendationModel.md](/reccommendationApp/RecommendationModel.md)** — Deep dive
    - Complete story: theory → practice
    - Why we chose this algorithm
    - Industry standards explained
@@ -81,7 +81,7 @@ Together, they teach you how professionals think: *Pick the right tool for the c
 - [PCA.ipynb](./PCA.ipynb) (the source notebook)
 - [Recommendation Matrix Notebook](./RecommendationMatrix.html) (notebook to see and understand how the basic model of recommendation works)
 - [RecommendationMatrix.ipynb](./RecommendationMatrix.ipynb) (the source code file in python)
-- [Recommendation_Model.md](./reccommendationApp/Recommendation_Model.md) (complete story and tutorial on the model and its explanations)
+- [RecommendationModel.md](./reccommendationApp/RecommendationModel.md) (complete story and tutorial on the model and its explanations)
 
 **To Use:**
 - Live app link (or deployed, may take time to charge): [Link is https://recommendationpcatutorial.onrender.com/](https://recommendationpcatutorial.onrender.com/)
@@ -89,3 +89,8 @@ Together, they teach you how professionals think: *Pick the right tool for the c
 **The data Files:**
 - [u.data](./reccommendationApp/u.data)
 - [u.item](./reccommendationApp/u.item)
+
+**The app files**
+- [App Readme](./reccommendationApp/README_MovieRecApp.md)
+- [app.py](./reccommendationApp/app.py)
+- [index.html](./reccommendationApp/templates/index.html)
