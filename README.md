@@ -43,61 +43,12 @@ No setup needed—just click and start rating. The system finds users with simil
 
 ## 📖 Understanding the Recommendation Logic
 
-Want to understand HOW the recommendations work? Read these in order:
-
-1. **[RECOMMENDATION_VISUAL_GUIDE.md](./RECOMMENDATION_VISUAL_GUIDE.md)** — Start here (15 min)
-   - Visual comparisons of algorithms
-   - Quick diagrams showing why this approach works
-
-2. **[RECOMMENDATION_MODEL_EXPLAINED.md](./RECOMMENDATION_MODEL_EXPLAINED.md)** — Deep dive (45 min)
+Want to understand HOW the recommendations work? Read this in order: 
+**[Recommendation_Model.md](./RecommendationApp/Recommendation_Model.md)** — Deep dive
    - Complete story: theory → practice
    - Why we chose this algorithm
    - Industry standards explained
    - All the math, explained clearly
-
-3. **[CODE_WALKTHROUGH.md](./CODE_WALKTHROUGH.md)** — For engineers (45 min)
-   - Line-by-line code explanation
-   - Real examples with actual numbers
-   - How pseudocode becomes Python
-
----
-
-## 🚀 Deploy MovieMate on Replit (5 minutes)
-
-If the app link above doesn't work yet, here's how to deploy it yourself—no downloads, no installation:
-
-1. Go to **replit.com** (free account)
-2. Click **"Create Repl"** → Choose **"Python"**
-3. Drag these files into Replit:
-   - `app.py`
-   - `requirements.txt`
-   - `u.data` and `u.item`
-4. Create a **"templates"** folder, upload `templates/index.html` inside
-5. Click **"Run"**
-6. Copy the URL at the top
-7. Share with your professor—they just click and use it! 🎉
-
-That's it. No terminal commands. No GitHub. Just files and a click.
-
----
-
-## 📁 Project Structure
-
-```
-examAI/
-├── PCA.ipynb                              (PCA Tutorial)
-├── SysDeRec.ipynb                         (Recommendation Theory)
-├── app.py                                 (The working app)
-├── templates/index.html                   (Beautiful UI)
-├── u.data & u.item                        (MovieLens dataset)
-├── README.md                              (This file)
-│
-├── RECOMMENDATION_MODEL_EXPLAINED.md      (Why this algorithm?)
-├── RECOMMENDATION_VISUAL_GUIDE.md         (Visual learning)
-├── CODE_WALKTHROUGH.md                    (Code explained)
-├── LEARNING_JOURNEY.md                    (What you learned)
-└── README_RECOMMENDATION_ENGINE.md        (Full reference)
-```
 
 ---
 
@@ -124,18 +75,13 @@ Together, they teach you how professionals think: *Pick the right tool for the c
 ## 🔗 Everything You Need
 
 **To Learn:**
-- PCA.ipynb (visual, interactive)
-- RECOMMENDATION_MODEL_EXPLAINED.md (complete story)
+- [PCA.ipynb](./PCA.ipynb) (visual, interactive)
+- [RecommendationMatrix.ipynb](./PCA.ipynb) (notebook to see and understand how the basic model of recommendation works)
+- [Recommendation_Model.md](./RecommendationApp/Recommendation_Model.md) (complete story)
 
 **To Use:**
 - Live app link (or deploy via Replit in 5 min)
 
-**To Understand the Code:**
-- CODE_WALKTHROUGH.md (explained line-by-line)
-
-**To See Your Growth:**
-- LEARNING_JOURNEY.md (your learning story)
-
----
-
-**Ready to see ML theory in action?** Start with PCA.ipynb, then try the app. 🚀
+**The data Files:**
+- [u.data](./RecommendationApp/u.data)
+- [u.item](./RecommendationApp/u.item)
