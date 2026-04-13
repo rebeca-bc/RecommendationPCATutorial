@@ -1,6 +1,6 @@
 # Understanding Recommendation Systems & PCA in Action
 
-This project teaches you two fundamental concepts in machine learning: **Principal Component Analysis (PCA)** and **Collaborative Filtering for Recommendations**. Both are demonstrated with working tutorials and a live, interactive application.
+This project is a tutorial to teach 2 fundamental concepts in machine learning: **Principal Component Analysis (PCA)** and **Collaborative Filtering for Recommendations**. Both are demonstrated with working tutorials and a live, interactive web application.
 
 ---
 
