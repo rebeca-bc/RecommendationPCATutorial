@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieMate - Personalized Movie Recommender</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🎬</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        /* Welcome Screen */
+        .welcome-phase {
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .welcome-text {
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .mode-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .mode-card {
+            background: #f8f9fa;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .mode-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .mode-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+
+        .mode-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .mode-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .mode-desc {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Search Phase */
+        .search-phase {
+            text-align: center;
+        }
+
+        .search-header {
+            margin-bottom: 30px;
+        }
+
+        .search-header h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .search-result-item:hover {
+            background: #f0f0f0;
+            padding-left: 20px;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .result-year {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .selected-movies-list {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .selected-movie {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .selected-movie-info {
+            flex: 1;
+        }
+
+        .selected-movie-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .selected-movie-rating {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .rating-buttons-small {
+            display: flex;
+            gap: 5px;
+        }
+
+        .rating-button-small {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s ease;
+        }
+
+        .rating-button-small:hover,
+        .rating-button-small.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .remove-movie-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .remove-movie-btn:hover {
+            background: #ff5252;
+            transform: scale(1.1);
+        }
+
+        .mode-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Hidden by default */
+        .hidden {
+            display: none !important;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Rating Phase */
+        .rating-phase {
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .movie-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin: 30px 0;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .movie-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .movie-year {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .rating-button {
+            width: 55px;
+            height: 55px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating-button:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .rating-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-skip {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-skip:hover {
+            background: #e0e0e0;
+            border-color: #999;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+            border-color: #999;
+            transform: translateY(-2px);
+        }
+
+        .movie-poster-link {
+            margin-bottom: 20px;
+        }
+
+        .movie-poster-link a {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .movie-poster-placeholder {
+            width: 150px;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .movie-poster-link a:hover .movie-poster-placeholder {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Recommendations Phase */
+        .recommendations-phase {
+            text-align: center;
+        }
+
+        .recommendations-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .recommendation-item {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .rec-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .rec-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .stars-display {
+            color: #ffc107;
+            font-size: 1.2em;
+        }
+
+        .rec-reason {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .btn-start-over {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1em;
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading state */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c00;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .movie-title {
+                font-size: 1.4em;
+            }
+
+            .rating-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>🎬 MovieMate</h1>
+                <p id="headerText">How would you like to get recommendations?</p>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <!-- Welcome Phase -->
+            <div id="welcomePhase" class="welcome-phase">
+                <div class="welcome-title">Choose Your Journey</div>
+                <div class="welcome-text">Select how you'd like to rate your favorite movies</div>
+                
+                <div class="mode-options">
+                    <div class="mode-card" onclick="startSearchMode(5)">
+                        <div class="mode-icon">🔍</div>
+                        <div class="mode-name">Search Mode</div>
+                        <div class="mode-desc">Find your top 5 movies from our catalog</div>
+                    </div>
+                    <div class="mode-card" onclick="startRating(5)">
+                        <div class="mode-icon">⚡</div>
+                        <div class="mode-name">Quick Mode</div>
+                        <div class="mode-desc">Rate random movies (5)</div>
+                    </div>
+                    <div class="mode-card" onclick="startRating(10)">
+                        <div class="mode-icon">🎯</div>
+                        <div class="mode-name">Full Mode</div>
+                        <div class="mode-desc">Rate random movies (10)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Phase -->
+            <div id="searchPhase" class="search-phase hidden">
+                <div class="search-header">
+                    <h3>Find Your Favorite Movies</h3>
+                    <div class="progress-text"><span id="selectedCount">0</span>/5 movies selected</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="searchProgressFill"></div>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="movieSearch" placeholder="Search movies by title (e.g., 'Harry Potter', 'Barbie')..." class="search-input">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+
+                <div id="selectedMovies" class="selected-movies-list"></div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="goBack()">← Back</button>
+                    <button class="btn-primary" id="startRecsBtn" onclick="startRecommendationsFromSearch()" disabled>Get Recommendations →</button>
+                </div>
+            </div>
+
+            <!-- Rating Phase -->
+            <div id="ratingPhase" class="rating-phase hidden">
+                <div class="progress-text"><span id="ratedCount">0</span>/<span id="targetCount">5</span> movies rated</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="movie-card">
+                    <div class="movie-poster-link">
+                        <a id="moviePosterLink" href="#" target="_blank" title="View on IMDb">
+                            <div class="movie-poster-placeholder" id="moviePosterPlaceholder">
+                                🎬
+                            </div>
+                        </a>
+                    </div>
+                    <div class="movie-year" id="movieYear"></div>
+                    <div class="movie-title" id="movieTitle">Loading...</div>
+                </div>
+
+                <div class="rating-options">
+                    <button class="rating-button" data-rating="1">1</button>
+                    <button class="rating-button" data-rating="2">2</button>
+                    <button class="rating-button" data-rating="3">3</button>
+                    <button class="rating-button" data-rating="4">4</button>
+                    <button class="rating-button" data-rating="5">5</button>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-skip" id="skipBtn">Haven't Seen It</button>
+                    <button class="btn-primary" id="rateBtn" disabled>Rate</button>
+                </div>
+                
+                <button class="btn-secondary" onclick="goBack()" style="margin-top: 20px; width: 100%;">← Back to Mode Selection</button>
+            </div>
+
+            <!-- Recommendations Phase -->
+            <div id="recommendationsPhase" class="recommendations-phase hidden">
+                <div class="recommendations-title">🎯 Your Recommendations</div>
+                <div class="recommendations-grid" id="recommendationsGrid"></div>
+                <button class="btn-start-over" id="startOverBtn">Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let sessionId = null;
+        let currentMovie = null;
+        let selectedRating = null;
+        let targetMovies = 5; // Default to quick mode
+        let selectedMoviesData = {}; // Store {itemId: {title, rating}}
+
+        // Initialize app - show welcome screen
+        async function initApp() {
+            const response = await fetch('/api/init_session', { method: 'POST' });
+            const data = await response.json();
+            sessionId = data.session_id;
+            
+            // Show welcome screen
+            document.getElementById('welcomePhase').classList.remove('hidden');
+            document.getElementById('ratingPhase').classList.add('hidden');
+            document.getElementById('recommendationsPhase').classList.add('hidden');
+            document.getElementById('searchPhase').classList.add('hidden');
+            selectedMoviesData = {};
+        }
+
+        // Start search mode
+        function startSearchMode(count) {
+            targetMovies = count;
+            document.getElementById('headerText').textContent = `Search for your top ${count} favorite movies`;
+            
+            // Hide welcome, show search
+            document.getElementById('welcomePhase').classList.add('hidden');
+            document.getElementById('searchPhase').classList.remove('hidden');
+            document.getElementById('ratingPhase').classList.add('hidden');
+            
+            // Focus search input
+            setTimeout(() => document.getElementById('movieSearch').focus(), 100);
+        }
+
+        // Search for movies
+        async function searchMovies(query) {
+            if (query.length < 2) {
+                document.getElementById('searchResults').classList.remove('active');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/search_movies', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query })
+                });
+
+                const data = await response.json();
+                const results = data.results || [];
+
+                const resultsDiv = document.getElementById('searchResults');
+                if (results.length > 0) {
+                    resultsDiv.innerHTML = results.map(movie => `
+                        <div class="search-result-item" onclick="addMovieToSelection(${movie.item_id}, '${movie.movie_title.replace(/'/g, "\\'")}')">
+                            <div class="result-title">${movie.movie_title}</div>
+                            <div class="result-year">${new Date(movie.release_date).getFullYear()}</div>
+                        </div>
+                    `).join('');
+                    resultsDiv.classList.add('active');
+                } else {
+                    resultsDiv.innerHTML = '<div class="search-result-item">No movies found</div>';
+                    resultsDiv.classList.add('active');
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+            }
+        }
+
+        // Add movie to selection
+        function addMovieToSelection(itemId, title) {
+            if (Object.keys(selectedMoviesData).length >= targetMovies) {
+                showError(`You've already selected ${targetMovies} movies`);
+                return;
+            }
+
+            selectedMoviesData[itemId] = { title: title, rating: null };
+            updateSelectedMoviesList();
+            document.getElementById('movieSearch').value = '';
+            document.getElementById('searchResults').classList.remove('active');
+        }
+
+        // Remove movie from selection
+        function removeMovieFromSelection(itemId) {
+            delete selectedMoviesData[itemId];
+            updateSelectedMoviesList();
+        }
+
+        // Rate selected movie
+        function rateSelectedMovie(itemId, rating) {
+            if (selectedMoviesData[itemId]) {
+                selectedMoviesData[itemId].rating = rating;
+                updateSelectedMoviesList();
+            }
+        }
+
+        // Update selected movies display
+        function updateSelectedMoviesList() {
+            const container = document.getElementById('selectedMovies');
+            const count = Object.keys(selectedMoviesData).length;
+
+            // Update progress
+            document.getElementById('selectedCount').textContent = count;
+            document.getElementById('searchProgressFill').style.width = (count / targetMovies * 100) + '%';
+
+            // Enable/disable recommendations button
+            const allRated = Object.values(selectedMoviesData).every(m => m.rating !== null);
+            document.getElementById('startRecsBtn').disabled = count === 0 || !allRated;
+
+            // Render movies
+            container.innerHTML = Object.entries(selectedMoviesData).map(([itemId, movie]) => `
+                <div class="selected-movie">
+                    <div class="selected-movie-info">
+                        <div class="selected-movie-title">${movie.title}</div>
+                        <div class="selected-movie-rating">
+                            <span>Rate:</span>
+                            <div class="rating-buttons-small">
+                                ${[1, 2, 3, 4, 5].map(r => `
+                                    <button class="rating-button-small ${movie.rating === r ? 'active' : ''}" 
+                                            onclick="rateSelectedMovie(${itemId}, ${r})">${r}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="remove-movie-btn" onclick="removeMovieFromSelection(${itemId})">×</button>
+                </div>
+            `).join('');
+        }
+
+        // Start recommendations from search
+        async function startRecommendationsFromSearch() {
+            // Store ratings in session
+            for (const [itemId, movie] of Object.entries(selectedMoviesData)) {
+                if (movie.rating !== null) {
+                    await fetch('/api/rate_movie', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            session_id: sessionId,
+                            item_id: parseInt(itemId),
+                            rating: movie.rating
+                        })
+                    });
+                }
+            }
+
+            // Show recommendations
+            await showRecommendations();
+        }
+
+        // Start rating phase
+        async function startRating(count) {
+            targetMovies = count;
+            document.getElementById('targetCount').textContent = count;
+            document.getElementById('headerText').textContent = `Rate ${count} of your favorite movies`;
+            
+            // Hide welcome, show rating
+            document.getElementById('welcomePhase').classList.add('hidden');
+            document.getElementById('ratingPhase').classList.remove('hidden');
+            document.getElementById('searchPhase').classList.add('hidden');
+            
+            await loadNextMovie();
+        }
+
+        // Go back to welcome screen
+        function goBack() {
+            // Reinitialize
+            initApp();
+        }
+
+        // Load next movie
+        async function loadNextMovie() {
+            try {
+                const response = await fetch('/api/next_movie', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    // Check if reached target number of movies
+                    if (data.error && data.error.includes('rated')) {
+                        showRecommendations();
+                    } else {
+                        showError(data.error || 'Failed to load movie');
+                    }
+                    return;
+                }
+
+                const data = await response.json();
+                currentMovie = data.movie;
+                selectedRating = null;
+
+                document.getElementById('movieTitle').textContent = currentMovie.movie_title;
+                document.getElementById('movieYear').textContent = new Date(currentMovie.release_date).getFullYear() || 'Unknown Year';
+
+                // Set poster link if available
+                if (currentMovie.poster_url) {
+                    document.getElementById('moviePosterLink').href = currentMovie.poster_url;
+                }
+
+                // Reset UI
+                document.querySelectorAll('.rating-button').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('rateBtn').disabled = true;
+
+                // Update progress - use targetMovies instead of data.total
+                document.getElementById('ratedCount').textContent = data.progress;
+                document.getElementById('progressFill').style.width = (data.progress / targetMovies * 100) + '%';
+
+            } catch (error) {
+                showError('Failed to load movie. Please try again.');
+                console.error(error);
+            }
+        }
+
+        // Rate movie
+        async function rateMovie(rating) {
+            try {
+                const response = await fetch('/api/rate_movie', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        item_id: currentMovie.item_id,
+                        rating: rating
+                    })
+                });
+
+                const data = await response.json();
+
+                // Check if user has reached their target number of movies
+                const currentProgress = parseInt(document.getElementById('ratedCount').textContent);
+                if (currentProgress >= targetMovies) {
+                    showRecommendations();
+                } else {
+                    loadNextMovie();
+                }
+            } catch (error) {
+                showError('Failed to save rating. Please try again.');
+                console.error(error);
+            }
+        }
+
+        // Skip movie
+        async function skipMovie() {
+            try {
+                const response = await fetch('/api/rate_movie', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        item_id: currentMovie.item_id,
+                        rating: null  // No rating
+                    })
+                });
+
+                const data = await response.json();
+                
+                // Check if user has reached their target number of attempts
+                const currentProgress = parseInt(document.getElementById('ratedCount').textContent);
+                if (currentProgress >= targetMovies) {
+                    showRecommendations();
+                } else {
+                    loadNextMovie();
+                }
+            } catch (error) {
+                showError('Failed to skip. Please try again.');
+                console.error(error);
+            }
+        }
+
+        // Show recommendations
+        async function showRecommendations() {
+            try {
+                const response = await fetch('/api/get_recommendations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+
+                const data = await response.json();
+
+                // Hide rating phase, show recommendations
+                document.getElementById('ratingPhase').classList.add('hidden');
+                document.getElementById('recommendationsPhase').classList.remove('hidden');
+
+                // Display recommendations
+                const grid = document.getElementById('recommendationsGrid');
+                grid.innerHTML = data.recommendations.map((rec, idx) => {
+                    const score = rec.score || rec.predicted_rating || 3.0;
+                    const title = rec.movie_title || rec.title || 'Unknown Movie';
+                    const reason = rec.reason || 'Based on your ratings';
+                    return `
+                    <div class="recommendation-item">
+                        <div class="rec-title">${idx + 1}. ${title}</div>
+                        <div class="rec-rating">
+                            <span class="stars-display">${'★'.repeat(Math.round(score))}</span>
+                            <span>${parseFloat(score).toFixed(1)}/5</span>
+                        </div>
+                        <div class="rec-reason">💡 ${reason}</div>
+                    </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                showError('Failed to generate recommendations. Please try again.');
+                console.error(error);
+            }
+        }
+
+        // Show error
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+            setTimeout(() => errorEl.classList.remove('show'), 5000);
+        }
+
+        // Reset app
+        async function resetApp() {
+            try {
+                await fetch('/api/reset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+            } catch (error) {
+                console.error(error);
+            }
+            document.getElementById('ratingPhase').classList.remove('hidden');
+            document.getElementById('recommendationsPhase').classList.add('hidden');
+            initApp();
+        }
+
+        // Event listeners
+        document.querySelectorAll('.rating-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.rating-button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedRating = parseInt(btn.dataset.rating);
+                document.getElementById('rateBtn').disabled = false;
+            });
+        });
+
+        document.getElementById('rateBtn').addEventListener('click', () => {
+            if (selectedRating) {
+                rateMovie(selectedRating);
+            }
+        });
+
+        document.getElementById('skipBtn').addEventListener('click', skipMovie);
+        document.getElementById('startOverBtn').addEventListener('click', resetApp);
+
+        // Search event listener
+        document.getElementById('movieSearch').addEventListener('input', (e) => {
+            searchMovies(e.target.value);
+        });
+
+        // Start app on load
+        initApp();
+    </script>
+</body>
+</html>
