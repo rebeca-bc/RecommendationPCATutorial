@@ -15,14 +15,14 @@ The PCA notebook (`PCA.ipynb`) teaches you:
 - Visual demonstrations of cumulative variance
 - Practical evaluation techniques
 
-**[Open PCA Tutorial →](./PCA.ipynb)**
+**[Open PCA Tutorial →](./PCA.html)**
 
 ---
 
 ### Part 2: Building a Recommendation Engine
 **Once you understand PCA, see how recommendation systems actually work in production.**
 
-You can go into the [Recommendation Matrix Notebook](./RecommendationMatrix.ipynb) to understand the logic behiond the basic matrix and SVDs used to generate reommendations, the notebook has some commentary to explain what was done. This one is more for the curious people (not that mandatory to read)
+You can go into the [Recommendation Matrix Notebook](./RecommendationMatrix.html) to understand the logic behiond the basic matrix and SVDs used to generate reommendations, the notebook has some commentary to explain what was done. This one is more for the curious people (not that mandatory to read)
 
 After, and most importamntly, we built MovieMate, a complete recommendation system using collaborative filtering. Instead of complex matrix factorization (which you learn in theory), we use a simpler, faster approach that works in 2-4 seconds.
 
@@ -77,12 +77,14 @@ Together, they teach you how professionals think: *Pick the right tool for the c
 ## 🔗 Everything You Need
 
 **To Learn:**
-- [PCA.ipynb](./PCA.ipynb) (visual, interactive)
-- [RecommendationMatrix.ipynb](./RecommendationMatrix.ipynb) (notebook to see and understand how the basic model of recommendation works)
-- [Recommendation_Model.md](./reccommendationApp/Recommendation_Model.md) (complete story)
+- [PCA.html](./PCA.html) (visual tutorial on PCA impact, interactive)
+- [PCA.ipynb](./PCA.ipynb) (the source notebook)
+- [Recommendation Matrix Notebook](./RecommendationMatrix.html) (notebook to see and understand how the basic model of recommendation works)
+- [RecommendationMatrix.ipynb](./RecommendationMatrix.ipynb) (the source code file in python)
+- [Recommendation_Model.md](./reccommendationApp/Recommendation_Model.md) (complete story and tutorial on the model and its explanations)
 
 **To Use:**
-- Live app link (or deploy via Replit in 5 min)
+- Live app link (or deployed, may take time to charge): [Link is https://recommendationpcatutorial.onrender.com/](https://recommendationpcatutorial.onrender.com/)
 
 **The data Files:**
 - [u.data](./reccommendationApp/u.data)
