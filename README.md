@@ -46,7 +46,7 @@ No setup needed—just click and start rating. The system finds users with simil
 ## 📖 Understanding the Recommendation Logic
 
 Want to understand HOW the recommendations work? Read this in order: 
-**[Recommendation_Model.md](./reccommendationApp/Recommendation_Model.md)** — Deep dive
+**[Recommendation_Model.md](/reccommendationApp/Recommendation_Model.md)** — Deep dive
    - Complete story: theory → practice
    - Why we chose this algorithm
    - Industry standards explained
